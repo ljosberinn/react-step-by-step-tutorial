@@ -3,15 +3,11 @@ import {
   BrowserRouter as Router,
   Switch,
   NavLink,
-  Redirect,
   Route,
 } from 'react-router-dom';
 import { HomeRoute, LoginRoute } from './routes/public';
 import { ProfileRoute, DashboardRoute } from './routes/private';
-
-function RedirectToHome() {
-  return <Redirect to='/' />;
-}
+import RedirectToHome from './routes/RedirectToHome';
 
 export default function App() {
   const isLoggedIn = false;

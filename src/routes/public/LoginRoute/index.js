@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Helmet from 'react-helmet';
+import { AuthContext } from '../../../context/AuthContext';
+import RedirectToHome from '../../../routes/RedirectToHome';
 
 export default function LoginRoute() {
   const [data, setData] = useState({
@@ -12,6 +14,12 @@ export default function LoginRoute() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const { handleLogin, isLoggedIn } = useContext(AuthContext);
+
+  if (isLoggedIn) {
+    return <RedirectToHome />;
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -20,12 +28,14 @@ export default function LoginRoute() {
     setTimeout(function() {
       setIsLoading(false);
 
+      // some password verification, verify on backend, etc
+      // flip a coin to fake backend answer
       const randomNumber = Math.random();
 
       if (randomNumber >= 0.5) {
         setError('Username unknown.');
       } else {
-        console.log('login successful');
+        handleLogin(data.username);
       }
     }, 1000);
   }
