@@ -1,3 +1,3 @@
-import ProfileRoute from "./ProfileRoute";
+import ProfileRoute from './ProfileRoute';
 
 export { ProfileRoute };
