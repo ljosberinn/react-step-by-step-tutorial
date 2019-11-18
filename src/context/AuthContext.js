@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
@@ -8,7 +8,11 @@ const INITIAL_STATE = {
 };
 
 export default function AuthContextProvider({ children }) {
-  const [user, setUser] = useState(INITIAL_STATE);
+  const [user, setUser] = useState(
+    localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user'))
+      : INITIAL_STATE,
+  );
 
   function handleLogout() {
     setUser(INITIAL_STATE);
@@ -17,6 +21,15 @@ export default function AuthContextProvider({ children }) {
   function handleLogin(username) {
     setUser({ username, isLoggedIn: true });
   }
+
+  useEffect(
+    function() {
+      const dataToStore = JSON.stringify(user);
+
+      localStorage.setItem('user', dataToStore);
+    },
+    [user],
+  );
 
   return (
     <AuthContext.Provider value={{ ...user, handleLogout, handleLogin }}>
