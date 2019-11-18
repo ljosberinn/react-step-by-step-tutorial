@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Helmet from 'react-helmet';
 
 export default function LoginRoute() {
+  const [data, setData] = useState({
+    username: '',
+    password: '',
+    repeatPassword: '',
+    rememberMe: false,
+  });
+
   function handleSubmit(event) {
     event.preventDefault();
   }
@@ -9,8 +16,22 @@ export default function LoginRoute() {
   function handleChange({ target }) {
     const { name, value, type, checked } = target;
 
-    console.log(name, value, type, checked);
+    switch (type) {
+      case 'checkbox':
+        setData({ ...data, rememberMe: checked });
+        break;
+      default:
+        setData({ ...data, [name]: value });
+    }
   }
+
+  const { username, password, repeatPassword } = data;
+
+  const isDisabled =
+    username.length === 0 ||
+    password.length === 0 ||
+    repeatPassword.length === 0 ||
+    password !== repeatPassword;
 
   return (
     <>
@@ -70,7 +91,9 @@ export default function LoginRoute() {
 
           <br />
 
-          <button type='submit'>Login</button>
+          <button type='submit' disabled={isDisabled}>
+            Login
+          </button>
         </fieldset>
       </form>
     </>
