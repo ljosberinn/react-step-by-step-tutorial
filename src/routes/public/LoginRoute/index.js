@@ -9,8 +9,25 @@ export default function LoginRoute() {
     rememberMe: false,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   function handleSubmit(event) {
     event.preventDefault();
+
+    setIsLoading(true);
+
+    setTimeout(function() {
+      setIsLoading(false);
+
+      const randomNumber = Math.random();
+
+      if (randomNumber >= 0.5) {
+        setError('Username unknown.');
+      } else {
+        console.log('login successful');
+      }
+    }, 1000);
   }
 
   function handleChange({ target }) {
@@ -40,7 +57,7 @@ export default function LoginRoute() {
       </Helmet>
 
       <form onSubmit={handleSubmit} spellCheck={false} autoComplete='off'>
-        <fieldset>
+        <fieldset disabled={isLoading}>
           <legend>
             <h1>Login</h1>
           </legend>
@@ -91,8 +108,10 @@ export default function LoginRoute() {
 
           <br />
 
+          {error && <p>There was an error logging you in: {error}</p>}
+
           <button type='submit' disabled={isDisabled}>
-            Login
+            {isLoading ? 'loading...' : 'Login'}
           </button>
         </fieldset>
       </form>
