@@ -1,5 +1,13 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 
 export default function LoginRoute() {
-  return <h1>Login</h1>;
+  return (
+    <>
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
+      <h1>Login</h1>
+    </>
+  );
 }

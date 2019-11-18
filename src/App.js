@@ -7,13 +7,15 @@ import {
   Route,
 } from 'react-router-dom';
 import { HomeRoute, LoginRoute } from './routes/public';
-import { ProfileRoute } from './routes/private';
+import { ProfileRoute, DashboardRoute } from './routes/private';
 
 function RedirectToHome() {
   return <Redirect to='/' />;
 }
 
-function App() {
+export default function App() {
+  const isLoggedIn = false;
+
   return (
     <Router>
       <nav>
@@ -26,7 +28,11 @@ function App() {
         </ul>
       </nav>
       <Switch>
-        <Route path='/' exact component={HomeRoute} />
+        <Route
+          path='/'
+          exact
+          component={isLoggedIn ? DashboardRoute : HomeRoute}
+        />
         <Route path='/login' exact component={LoginRoute} />
         <Route path='/profile' exact component={ProfileRoute} />
         <Route component={RedirectToHome} />
@@ -34,5 +40,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
