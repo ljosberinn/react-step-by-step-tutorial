@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,9 +8,10 @@ import {
 import { HomeRoute, LoginRoute } from './routes/public';
 import { ProfileRoute, DashboardRoute } from './routes/private';
 import RedirectToHome from './routes/RedirectToHome';
+import { AuthContext } from './context/AuthContext';
 
 export default function App() {
-  const isLoggedIn = false;
+  const { isLoggedIn, handleLogout } = useContext(AuthContext);
 
   return (
     <Router>
@@ -18,9 +19,24 @@ export default function App() {
         <ul>
           <li>
             <NavLink to='/'>Home</NavLink>
-            <NavLink to='/login'>Login</NavLink>
-            <NavLink to='/profile'>Profile</NavLink>
           </li>
+
+          {isLoggedIn ? (
+            <>
+              <li>
+                <NavLink to='/profile'>Profile</NavLink>
+              </li>
+              <li>
+                <button onClick={handleLogout} type='button'>
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <NavLink to='/login'>Login</NavLink>
+            </li>
+          )}
         </ul>
       </nav>
       <Switch>
