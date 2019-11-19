@@ -1,5 +1,6 @@
 import Footer from './Footer';
-import Loader from './Loader';
 import Icon from './Icon';
+import Loader from './Loader';
+import Table from './Table';
 
-export { Footer, Loader, Icon };
+export { Footer, Icon, Loader, Table };
