@@ -57,21 +57,12 @@ export default function App() {
       <main>
         <Switch>
           <Suspense fallback={null}>
-            {Object.values(PUBLIC_ROUTES).map(function({ path, component }) {
-              return (
-                <Route path={path} component={component} exact key={path} />
-              );
+            {Object.values(PUBLIC_ROUTES).map(function(props) {
+              return <Route {...props} exact key={props.path} />;
             })}
 
-            {Object.values(PRIVATE_ROUTES).map(function({ path, component }) {
-              return (
-                <PrivateRoute
-                  path={path}
-                  component={component}
-                  exact
-                  key={path}
-                />
-              );
+            {Object.values(PRIVATE_ROUTES).map(function(props) {
+              return <PrivateRoute {...props} exact key={props.path} />;
             })}
             <Route component={RedirectToHome} />
           </Suspense>
