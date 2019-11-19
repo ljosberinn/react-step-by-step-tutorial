@@ -1,3 +1,4 @@
 import Footer from './Footer';
+import Loader from './Loader';
 
-export { Footer };
+export { Footer, Loader };

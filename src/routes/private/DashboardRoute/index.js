@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import { applyWithAnimationDelay } from '../../../utils';
+import { Loader } from '../../../components';
 
 const url = 'https://jsonplaceholder.typicode.com/posts';
 
@@ -16,10 +17,14 @@ export default function DashboardRoute() {
         return response.json();
       })
       .then(function(json) {
-        applyWithAnimationDelay(start, function() {
-          setData(json);
-          setIsLoading(false);
-        });
+        applyWithAnimationDelay(
+          start,
+          function() {
+            setData(json);
+            setIsLoading(false);
+          },
+          1000,
+        );
       });
   }, []);
 
@@ -30,7 +35,9 @@ export default function DashboardRoute() {
       </Helmet>
       <h1>Dashboard</h1>
 
-      {isLoading ? null : (
+      {isLoading ? (
+        <Loader isFullPage />
+      ) : (
         <table style={{ width: '100%' }}>
           <thead>
             <tr>
