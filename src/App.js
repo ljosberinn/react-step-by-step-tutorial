@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   NavLink,
   Route,
 } from 'react-router-dom';
-import { HomeRoute, LoginRoute } from './routes/public';
-import { ProfileRoute, DashboardRoute, UserRoute } from './routes/private';
+import PUBLIC_ROUTES from './routes/public';
+import PRIVATE_ROUTES from './routes/private';
 import RedirectToHome from './routes/RedirectToHome';
 import PrivateRoute from './routes/PrivateRoute';
 import { AuthContext } from './context/AuthContext';
@@ -21,26 +21,34 @@ export default function App() {
         <nav>
           <ul>
             <li>
-              <NavLink to='/'>{isLoggedIn ? 'Dashboard' : 'Home'}</NavLink>
+              <NavLink
+                to={
+                  isLoggedIn
+                    ? PRIVATE_ROUTES.Dashboard.path
+                    : PUBLIC_ROUTES.Home.path
+                }
+              >
+                {isLoggedIn ? 'Dashboard' : 'Home'}
+              </NavLink>
             </li>
 
             {isLoggedIn ? (
               <>
                 <li>
-                  <NavLink to='/user'>User</NavLink>
+                  <NavLink to={PRIVATE_ROUTES.User.path}>User</NavLink>
                 </li>
                 <li>
-                  <NavLink to='/profile'>Profile</NavLink>
+                  <NavLink to={PRIVATE_ROUTES.Profile.path}>Profile</NavLink>
                 </li>
                 <li>
-                  <button onClick={handleLogout} type='button'>
+                  <button onClick={handleLogout} type="button">
                     Logout
                   </button>
                 </li>
               </>
             ) : (
               <li>
-                <NavLink to='/login'>Login</NavLink>
+                <NavLink to={PUBLIC_ROUTES.Login.path}>Login</NavLink>
               </li>
             )}
           </ul>
@@ -48,17 +56,25 @@ export default function App() {
       </header>
       <main>
         <Switch>
-          <Route
-            path='/'
-            exact
-            component={isLoggedIn ? DashboardRoute : HomeRoute}
-          />
-          <Route path='/login' exact component={LoginRoute} />
+          <Suspense fallback={null}>
+            {Object.values(PUBLIC_ROUTES).map(function({ path, component }) {
+              return (
+                <Route path={path} component={component} exact key={path} />
+              );
+            })}
 
-          <PrivateRoute path='/user' exact component={UserRoute} />
-          <PrivateRoute path='/profile' exact component={ProfileRoute} />
-
-          <Route component={RedirectToHome} />
+            {Object.values(PRIVATE_ROUTES).map(function({ path, component }) {
+              return (
+                <PrivateRoute
+                  path={path}
+                  component={component}
+                  exact
+                  key={path}
+                />
+              );
+            })}
+            <Route component={RedirectToHome} />
+          </Suspense>
         </Switch>
       </main>
       <Footer />

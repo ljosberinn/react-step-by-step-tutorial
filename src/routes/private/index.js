@@ -1,5 +1,24 @@
-import ProfileRoute from './ProfileRoute';
-import DashboardRoute from './DashboardRoute';
-import UserRoute from './UserRoute';
+import { lazy } from 'react';
 
-export { ProfileRoute, DashboardRoute, UserRoute };
+const Profile = {
+  path: '/profile',
+  component: lazy(function() {
+    return import(/* webpackChunkName: "profile" */ './ProfileRoute');
+  }),
+};
+
+const Dashboard = {
+  path: '/dashboard',
+  component: lazy(function() {
+    return import(/* webpackChunkName: "dashboard" */ './DashboardRoute');
+  }),
+};
+
+const User = {
+  path: '/user',
+  component: lazy(function() {
+    return import(/* webpackChunkName: "user" */ './UserRoute');
+  }),
+};
+
+export default { User, Profile, Dashboard };

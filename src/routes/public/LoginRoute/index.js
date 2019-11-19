@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import Helmet from 'react-helmet';
 import { AuthContext } from '../../../context/AuthContext';
-import RedirectToHome from '../../../routes/RedirectToHome';
+import PRIVATE_ROUTES from '../../../routes/private';
+import { Redirect } from 'react-router-dom';
 
 const INITIAL_STATE = {
   username: '',
@@ -28,7 +29,7 @@ export default function LoginRoute() {
   const { handleLogin, isLoggedIn } = useContext(AuthContext);
 
   if (isLoggedIn) {
-    return <RedirectToHome />;
+    return <Redirect to={PRIVATE_ROUTES.Dashboard.path} />;
   }
 
   function handleSubmit(event) {
@@ -79,7 +80,7 @@ export default function LoginRoute() {
         <title>Login</title>
       </Helmet>
 
-      <form onSubmit={handleSubmit} spellCheck={false} autoComplete='off'>
+      <form onSubmit={handleSubmit} spellCheck={false} autoComplete="off">
         <fieldset disabled={isLoading}>
           <legend>
             <h1>Login</h1>
@@ -88,10 +89,10 @@ export default function LoginRoute() {
           <label>
             Username
             <input
-              type='text'
-              placeholder='username'
+              type="text"
+              placeholder="username"
               required
-              name='username'
+              name="username"
               onChange={handleChange}
               autoFocus={!shouldBeRemembered}
               value={username}
@@ -103,10 +104,10 @@ export default function LoginRoute() {
           <label>
             Password
             <input
-              type='password'
-              placeholder='password'
+              type="password"
+              placeholder="password"
               required
-              name='password'
+              name="password"
               onChange={handleChange}
               autoFocus={shouldBeRemembered}
             />
@@ -119,8 +120,8 @@ export default function LoginRoute() {
           <label>
             Remember me
             <input
-              type='checkbox'
-              name='rememberMe'
+              type="checkbox"
+              name="rememberMe"
               onChange={handleChange}
               defaultChecked={shouldBeRemembered}
             />
@@ -130,7 +131,7 @@ export default function LoginRoute() {
 
           {error && <p>There was an error logging you in: {error}</p>}
 
-          <button type='submit' disabled={isDisabled}>
+          <button type="submit" disabled={isDisabled}>
             {isLoading ? 'loading...' : 'Login'}
           </button>
         </fieldset>
