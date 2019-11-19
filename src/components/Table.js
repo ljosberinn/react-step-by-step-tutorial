@@ -3,8 +3,8 @@ import Icon from './Icon';
 import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 
 const SORT_ORDER = {
-  asc: 'ASC',
-  desc: 'DESC',
+  ASC: 'ASC',
+  DESC: 'DESC',
 };
 
 export default function Table({
@@ -28,6 +28,7 @@ export default function Table({
     setSortBy(columnName);
 
     const newData = [...data];
+
     newData.sort(function(a, b) {
       if (typeof a[columnName] === 'number') {
         return a[columnName] - b[columnName];
@@ -64,7 +65,7 @@ export default function Table({
           {columns.map(function(column) {
             return (
               <th
-                className='is-sortable'
+                className="is-sortable"
                 onClick={handleSortChange(column)}
                 key={column}
               >
@@ -84,6 +85,11 @@ export default function Table({
           return <RowComponent dataset={dataset} key={dataset.id} />;
         })}
       </tbody>
+      <tfoot>
+        <tr>
+          <td colSpan={columns.length}>{data.length} results</td>
+        </tr>
+      </tfoot>
     </table>
   );
 }

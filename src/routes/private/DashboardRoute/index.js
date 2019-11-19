@@ -53,7 +53,7 @@ export default function DashboardRoute() {
 
 function PostRow({ dataset }) {
   return (
-    <tr key={dataset.id}>
+    <tr>
       {COLUMNS.map(function(column) {
         return <td key={column}>{dataset[column]}</td>;
       })}
