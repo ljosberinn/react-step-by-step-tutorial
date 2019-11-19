@@ -7,7 +7,7 @@ export default function HomeRoute() {
       <Helmet>
         <title>Landing Page</title>
       </Helmet>
-      <h1> Page</h1>
+      <h1>Page</h1>
     </>
   );
 }
