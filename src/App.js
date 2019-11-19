@@ -6,8 +6,9 @@ import {
   Route,
 } from 'react-router-dom';
 import { HomeRoute, LoginRoute } from './routes/public';
-import { ProfileRoute, DashboardRoute } from './routes/private';
+import { ProfileRoute, DashboardRoute, UserRoute } from './routes/private';
 import RedirectToHome from './routes/RedirectToHome';
+import PrivateRoute from './routes/PrivateRoute';
 import { AuthContext } from './context/AuthContext';
 import { Footer } from './components';
 
@@ -25,6 +26,9 @@ export default function App() {
 
             {isLoggedIn ? (
               <>
+                <li>
+                  <NavLink to='/user'>User</NavLink>
+                </li>
                 <li>
                   <NavLink to='/profile'>Profile</NavLink>
                 </li>
@@ -50,7 +54,10 @@ export default function App() {
             component={isLoggedIn ? DashboardRoute : HomeRoute}
           />
           <Route path='/login' exact component={LoginRoute} />
-          <Route path='/profile' exact component={ProfileRoute} />
+
+          <PrivateRoute path='/user' exact component={UserRoute} />
+          <PrivateRoute path='/profile' exact component={ProfileRoute} />
+
           <Route component={RedirectToHome} />
         </Switch>
       </main>
