@@ -7,7 +7,6 @@ export default function LoginRoute() {
   const [data, setData] = useState({
     username: '',
     password: '',
-    repeatPassword: '',
     rememberMe: false,
   });
 
@@ -52,13 +51,9 @@ export default function LoginRoute() {
     }
   }
 
-  const { username, password, repeatPassword } = data;
+  const { username, password } = data;
 
-  const isDisabled =
-    username.length === 0 ||
-    password.length === 0 ||
-    repeatPassword.length === 0 ||
-    password !== repeatPassword;
+  const isDisabled = username.length === 0 || password.length === 0;
 
   return (
     <>
@@ -80,6 +75,7 @@ export default function LoginRoute() {
               required
               name='username'
               onChange={handleChange}
+              autoFocus
             />
           </label>
 
@@ -97,17 +93,6 @@ export default function LoginRoute() {
           </label>
 
           <br />
-
-          <label>
-            Repeat password
-            <input
-              type='password'
-              placeholder='repeat password'
-              required
-              name='repeatPassword'
-              onChange={handleChange}
-            />
-          </label>
 
           <br />
 
