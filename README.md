@@ -1,5 +1,7 @@
 # Take a look at the individual commits.
 
+## Mostly written without many ES6 features for easier migration from jQuery and the likes...
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
