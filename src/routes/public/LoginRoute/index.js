@@ -3,11 +3,23 @@ import Helmet from 'react-helmet';
 import { AuthContext } from '../../../context/AuthContext';
 import RedirectToHome from '../../../routes/RedirectToHome';
 
+const INITIAL_STATE = {
+  username: '',
+  password: '',
+  rememberMe: false,
+};
+
+const LOCAL_STORAGE_KEY = 'loginUserName';
+
 export default function LoginRoute() {
+  const shouldBeRemembered = !!localStorage.getItem(LOCAL_STORAGE_KEY);
+
   const [data, setData] = useState({
-    username: '',
-    password: '',
-    rememberMe: false,
+    ...INITIAL_STATE,
+    ...(shouldBeRemembered && {
+      username: localStorage.getItem(LOCAL_STORAGE_KEY),
+      rememberMe: true,
+    }),
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +46,12 @@ export default function LoginRoute() {
       if (randomNumber >= 0.5) {
         setError('Username unknown.');
       } else {
+        if (data.rememberMe) {
+          localStorage.setItem(LOCAL_STORAGE_KEY, data.username);
+        } else if (shouldBeRemembered) {
+          localStorage.removeItem(LOCAL_STORAGE_KEY);
+        }
+
         handleLogin(data.username);
       }
     }, 1000);
@@ -75,7 +93,8 @@ export default function LoginRoute() {
               required
               name='username'
               onChange={handleChange}
-              autoFocus
+              autoFocus={!shouldBeRemembered}
+              value={username}
             />
           </label>
 
@@ -89,6 +108,7 @@ export default function LoginRoute() {
               required
               name='password'
               onChange={handleChange}
+              autoFocus={shouldBeRemembered}
             />
           </label>
 
@@ -98,7 +118,12 @@ export default function LoginRoute() {
 
           <label>
             Remember me
-            <input type='checkbox' name='rememberMe' onChange={handleChange} />
+            <input
+              type='checkbox'
+              name='rememberMe'
+              onChange={handleChange}
+              defaultChecked={shouldBeRemembered}
+            />
           </label>
 
           <br />
